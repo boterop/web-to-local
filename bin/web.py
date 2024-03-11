@@ -4,9 +4,11 @@ from bin.storage import Storage
 
 
 class Web:
-    def __init__(self, url):
+    def __init__(self, url: str):
         self.url = url
-        self.storage = Storage(self.get_domain(url))
+        domain = self.get_domain(url)
+        self.domain = domain
+        self.storage = Storage(domain)
 
     def get_code(self):
         return requests.get(self.url).text
@@ -15,13 +17,14 @@ class Web:
         self.code = requests.get(self.url).text
         return self
 
-    def convert_to_local(self, code=None):
+    def convert_to_local(self, code: str = None):
         if code == None:
             code = self.code
 
-        self.storage.save("index.html", code)
+        new_code = self._convert_links(self.code)
+        self.storage.save("index.html", new_code)
 
-    def get_domain(self, url):
+    def get_domain(self, url: str):
         domain_regex = re.compile(r"^(?:https?:\/\/)?(?:www\.)?([^\/]+)(?:\/.*)?$")
         match = domain_regex.match(url)
 
@@ -29,3 +32,12 @@ class Web:
         if match:
             domain = match.group(1)
         return domain
+
+    def _convert_links(self, code: str):
+        print(self.domain)
+        new_code = re.sub(
+            self.url,
+            "",
+            code,
+        )
+        return new_code
