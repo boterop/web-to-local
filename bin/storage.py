@@ -5,10 +5,13 @@ import shutil
 class Storage:
     BUILD_FOLDER = "build/"
 
-    def __init__(self, path: str):
-        build_path = self.BUILD_FOLDER + path + "/"
-        self.path = build_path
-        self.create_folders(build_path)
+    def __init__(self, path: str = None):
+        if path == None:
+            self.path = self.BUILD_FOLDER
+        else:
+            build_path = self.BUILD_FOLDER + path + "/"
+            self.path = build_path
+            self.create_folders(build_path)
 
     def save(self, file_path: str, content: str):
         path = self.path + file_path
@@ -20,9 +23,24 @@ class Storage:
         finally:
             file.close()
 
-    def create_folders(self, path: str):
+    def read(self, file_path: str):
+        path = self.path + file_path
+        file = open(path, "r")
+
+        content = ""
+        try:
+            content = file.read()
+        finally:
+            file.close()
+
+        return content
+
+    def remove(self, path: str):
         if os.path.exists(path):
             shutil.rmtree(path)
+
+    def create_folders(self, path: str):
+        self.remove(path)
 
         folder_path = ""
         for folder in path.split("/"):
