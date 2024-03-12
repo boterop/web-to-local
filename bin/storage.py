@@ -20,6 +20,18 @@ class Storage:
         finally:
             file.close()
 
+    def read(self, file_path: str):
+        path = self.path + file_path
+        file = open(path, "r")
+
+        content = ""
+        try:
+            content = file.read()
+        finally:
+            file.close()
+
+        return content
+
     def create_folders(self, path: str):
         if os.path.exists(path):
             shutil.rmtree(path)
