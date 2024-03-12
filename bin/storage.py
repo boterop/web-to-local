@@ -8,7 +8,7 @@ class Storage:
     def __init__(self, path: str):
         build_path = self.BUILD_FOLDER + path + "/"
         self.path = build_path
-        
+
         if os.path.exists(build_path):
             shutil.rmtree(build_path)
 
@@ -24,3 +24,6 @@ class Storage:
             file.write(content)
         finally:
             file.close()
+
+    def exist(self, file_path: str):
+        return os.path.exists(self.path + file_path)
