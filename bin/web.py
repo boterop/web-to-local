@@ -29,10 +29,10 @@ class Web:
             current_page = self.index_url
 
         file_name = (
-            re.sub(self.index_url + "/", "", current_page)
+            re.sub(self.index_url, "", current_page) + "/"
             if current_page != self.index_url
-            else "index"
-        ) + ".html"
+            else ""
+        ) + "index.html"
 
         if self.storage.exist(file_name):
             return

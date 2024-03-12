@@ -8,22 +8,27 @@ class Storage:
     def __init__(self, path: str):
         build_path = self.BUILD_FOLDER + path + "/"
         self.path = build_path
+        self.create_folders(build_path)
 
-        if os.path.exists(build_path):
-            shutil.rmtree(build_path)
-
-        folder_path = ""
-        for folder in build_path.split("/"):
-            folder_path += folder + "/"
-            if not os.path.exists(folder_path):
-                os.mkdir(folder_path)
-
-    def save(self, fileName: str, content: str):
-        file = open(self.path + fileName, "a")
+    def save(self, file_path: str, content: str):
+        path = self.path + file_path
+        folder = "/".join(path.split("/")[0:-1])
+        self.create_folders(folder)
+        file = open(path, "a")
         try:
             file.write(content)
         finally:
             file.close()
+
+    def create_folders(self, path: str):
+        if os.path.exists(path):
+            shutil.rmtree(path)
+
+        folder_path = ""
+        for folder in path.split("/"):
+            folder_path += folder + "/"
+            if not os.path.exists(folder_path):
+                os.mkdir(folder_path)
 
     def exist(self, file_path: str):
         return os.path.exists(self.path + file_path)
