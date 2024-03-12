@@ -34,10 +34,9 @@ class Web:
         return domain
 
     def _convert_links(self, code: str):
-        print(self.domain)
         new_code = re.sub(
-            r"(https?:\/\/)?" + self.domain,
-            ".",
+            self.url,
+            "/",
             code,
         )
         return new_code
