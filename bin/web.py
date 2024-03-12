@@ -44,14 +44,9 @@ class Web:
 
         escaped_index = re.escape(self.index_url)
         code_without_web_domain = re.sub(
-            escaped_index + "/",
+            rf"\b{escaped_index}\/?\b",
             LOCAL_INDEX_PATH,
             code,
-        )
-        code_without_web_domain = re.sub(
-            escaped_index,
-            LOCAL_INDEX_PATH,
-            code_without_web_domain,
         )
 
         self.storage.save(file_name, code_without_web_domain)
