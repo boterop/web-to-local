@@ -2,3 +2,4 @@ __pycache__
 env/lib/*/site-packages
 learning.jpg
 build/*
+.vscode/
