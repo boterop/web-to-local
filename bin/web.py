@@ -55,6 +55,8 @@ class Web:
             file_code = self.get_code(sub_url)
             self.convert_to_local(file_code, sub_url)
 
+        return self
+
     def get_domain(self, url: str):
         domain_regex = re.compile(r"^(?:https?:\/\/)?(?:www\.)?([^\/]+)(?:\/.*)?$")
         match = domain_regex.match(url)
